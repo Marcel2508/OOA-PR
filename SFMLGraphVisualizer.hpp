@@ -26,6 +26,37 @@ class SFMLGraphVisualizer : public GraphVisualizer
         }
         return false;
     }
+    int offsetX;
+    int offsetY;
+    Node *selectedRef=0;
+    void onMouseMoved(DiGraph &g, int x,int y){
+        if(this->selectedRef==0)return;
+        this->selectedRef->setPositionX(x+this->offsetX);
+        this->selectedRef->setPositionY(y+this->offsetY);
+    };
+    void onMouseDown(DiGraph &g, int x,int y){
+        Liste<Node*> *listCopy = g.getNodesRef();
+        int tx,ty;
+        for(int i=0;i<listCopy->size();i++){
+            tx = (*listCopy)[i]->getPositionX();
+            ty = (*listCopy)[i]->getPositionY();
+            if(
+                x > tx-NODERADIUS &&
+                y > ty-NODERADIUS &&
+                x < tx + NODERADIUS &&
+                y > ty + NODERADIUS
+            ){
+                this->offsetX=tx-x;
+                this->offsetY=ty-y;
+                this->selectedRef=(*listCopy)[i];
+                return;
+            }
+        }
+    };
+    void onMouseUp(DiGraph &g, int x,int y){
+        if(this->selectedRef==0)return;
+        this->selectedRef=0;
+    };
 
   public:
     SFMLGraphVisualizer()
@@ -46,6 +77,12 @@ class SFMLGraphVisualizer : public GraphVisualizer
                 // Close window : exit
                 if (event.type == sf::Event::Closed)
                     window.close();
+                else if(event.type==sf::Event::MouseButtonPressed)
+                    this->onMouseDown(g,event.mouseButton.x,event.mouseButton.y);
+                else if(event.type==sf::Event::MouseButtonReleased)
+                    this->onMouseUp(g,event.mouseButton.x,event.mouseButton.y);
+                else if(event.type==sf::Event::MouseMoved)
+                    this->onMouseMoved(g,event.mouseMove.x,event.mouseMove.y);
             }
             // Clear screen
             window.clear(sf::Color::White);

@@ -24,6 +24,7 @@ class DiGraph{
         Liste<Node*> getNeighbours(std::string key);
         Liste<Edge*> getEdges(std::string key);
         Liste<Node*> getNodes();
+        Liste<Node*> *getNodesRef();
         Liste<Edge*> dijkstraShortestPath(std::string start, std::string end);
         void setVisualizer(GraphVisualizer *graphviz);
         GraphVisualizer *getVisualizer();

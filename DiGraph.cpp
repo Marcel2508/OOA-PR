@@ -104,6 +104,9 @@ Liste<Edge*> DiGraph::getEdges(std::string key){
 Liste<Node*> DiGraph::getNodes(){
     return this->nodes;
 }
+Liste<Node*> *DiGraph::getNodesRef(){
+    return &(this->nodes);
+}
 
 int DiGraph::indexOf(Node* n){
     for(int j=0;j<this->nodes.size();j++){if(this->nodes.getValueAt(j)->getKey()==n->getKey())return j;}
