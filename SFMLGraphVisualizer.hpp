@@ -20,15 +20,17 @@ class SFMLGraphVisualizer : public GraphVisualizer
     bool isHilighted(Edge *edge){
         for(int i=0;i<this->hilightedPath.size();i++){
             if(edge->getStartNode()->getKey()==this->hilightedPath[i]->getStartNode()->getKey() &&  edge->getEndNode()->getKey()==this->hilightedPath[i]->getEndNode()->getKey()){
-                //cout << "jey" << endl;
                 return true;
             }
         }
         return false;
     }
+
+    ///////////////////
     int offsetX;
     int offsetY;
     Node *selectedRef=0;
+
     void onMouseMoved(DiGraph &g, int x,int y){
         if(this->selectedRef==0)return;
         this->selectedRef->setPositionX(x+this->offsetX);
@@ -37,14 +39,15 @@ class SFMLGraphVisualizer : public GraphVisualizer
     void onMouseDown(DiGraph &g, int x,int y){
         Liste<Node*> *listCopy = g.getNodesRef();
         int tx,ty;
+        cout << x << ", " << y << endl;
         for(int i=0;i<listCopy->size();i++){
             tx = (*listCopy)[i]->getPositionX();
             ty = (*listCopy)[i]->getPositionY();
             if(
-                x > tx-NODERADIUS &&
-                y > ty-NODERADIUS &&
-                x < tx + NODERADIUS &&
-                y > ty + NODERADIUS
+                x >= tx-NODERADIUS &&
+                y >= ty-NODERADIUS &&
+                x <= tx + NODERADIUS &&
+                y <= ty + NODERADIUS
             ){
                 this->offsetX=tx-x;
                 this->offsetY=ty-y;
@@ -57,6 +60,7 @@ class SFMLGraphVisualizer : public GraphVisualizer
         if(this->selectedRef==0)return;
         this->selectedRef=0;
     };
+    ///////////////
 
   public:
     SFMLGraphVisualizer()

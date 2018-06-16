@@ -16,7 +16,9 @@ class DiGraph{
         Liste<Node*> nodes;
         int indexOf(Node*);
         GraphVisualizer *graphviz;
+        Liste<Edge*> desiredPath;
     public:
+        DiGraph();
         DiGraph(std::string filename);
         void addNode(Node *node);
         void addNode(std::string key,int x,int y);

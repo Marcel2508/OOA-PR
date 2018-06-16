@@ -12,6 +12,10 @@ bool isInt(std::string v){
     return !(atoi(v.c_str())==0 && v[0]!='0');
 }
 
+DiGraph::DiGraph(){
+    return;
+}
+
 DiGraph::DiGraph(std::string filename){
     ifstream file(filename.c_str());
     string curLine;
@@ -41,6 +45,15 @@ DiGraph::DiGraph(std::string filename){
                         cout << "Line " << lc << " invalid int. Skipping!" << endl;
                     }
                 }
+            }else if(toks.countTokens()==2){
+                try{
+                    this->desiredPath = this->dijkstraShortestPath(toks.nextToken(),toks.nextToken());
+                    if(this->desiredPath.size()==0)throw 1;
+                }
+                catch(int ex){
+                    cout << "Invalid Path options!" << endl;
+                }
+                
             }else{
                 cout << "Line " << lc << " invalid. Skipping!" << endl;
             }
@@ -113,7 +126,7 @@ int DiGraph::indexOf(Node* n){
     return -1;
 }
 
-Liste<Edge*> DiGraph::dijkstraShortestPath(std::string start, std::string end){
+Liste<Edge*> DiGraph::dijkstraShortestPath(std::string end, std::string start){
     Liste<Edge*> tmp;
     int used = this->nodes.size();
     PriorityQueue<Node*> pq;
@@ -177,7 +190,8 @@ Liste<Edge*> DiGraph::dijkstraShortestPath(std::string start, std::string end){
 }
 
 void DiGraph::setVisualizer(GraphVisualizer *graphviz){
-    this->graphviz = graphviz;
+    this->graphviz = graphviz; 
+    if(this->desiredPath.size()!=0)this->graphviz->hilightPath(this->desiredPath);
 }
 GraphVisualizer *DiGraph::getVisualizer(){
     return this->graphviz;
