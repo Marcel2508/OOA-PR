@@ -70,7 +70,7 @@ class SFMLGraphVisualizer : public GraphVisualizer
     }
     void render(DiGraph &g)
     {
-        window.create(sf::VideoMode(1024, 768), "myGraph");
+        window.create(sf::VideoMode(900, 600), "myGraph");
         Liste<Node *> nodes = g.getNodes();
         while (window.isOpen())
         {

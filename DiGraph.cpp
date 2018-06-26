@@ -1,6 +1,7 @@
 #include <limits>
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 #include "DiGraph.hpp"
 #include "PriorityQueue.hpp"
 #include "GraphVisualizer.hpp"
@@ -64,6 +65,25 @@ DiGraph::DiGraph(std::string filename){
         cout << "File not found!" << endl;
         exit(1);
     }
+    this->filename=filename;
+}
+
+DiGraph::~DiGraph(){
+    ofstream out;
+    stringstream ss;
+    out.open(this->filename,ios::out | ios::trunc);
+    out << "# Alle Knoten" << endl;
+
+    for(int i=0;i<this->nodes.size();i++){
+        out << this->nodes[i]->getKey() << " " << this->nodes[i]->getPositionX() << " " << this->nodes[i]->getPositionY() << endl;
+        for(int j=0;j<this->nodes[i]->getEdges().size();j++){
+            ss << this->nodes[i]->getEdges()[j]->getStartNode()->getKey() << " " << this->nodes[i]->getEdges()[j]->getEndNode()->getKey() << " " << this->nodes[i]->getEdges()[j]->getWeight() << endl;  
+        }
+    }
+    out << "# Alle Kanten" << endl;
+    out << ss.str() << endl;
+    out.close();
+    return;
 }
 
 void DiGraph::addNode(Node *node){

@@ -1,17 +1,18 @@
 # Alle Knoten
 A 40 80
 E 400 40
-D 670 201
+D 600 200
 F 240 240
-C 717 489
+C 280 500
 B 120 440
 # Alle Kanten
 A E 10
-A B 5
 D E 3
-F D 2
-F A 7
 C D 9
+F D 2
 B C 7
 B F 20
-
+A B 5
+F A 7
+# Pfad zum Anzeigen
+A E
